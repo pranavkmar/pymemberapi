@@ -1,6 +1,6 @@
 import sqlite3
 
-from flask import Flask, g, request, jsonify
+from flask import Flask, g, request, jsonify, render_template
 from functools import wraps
 
 app = Flask(__name__)
@@ -38,6 +38,11 @@ def get_db():
     return g.sqlite_db
 
 
+@app.route('/')
+def index():
+    return render_template('home.html')
+
+
 @app.route('/member', methods=['GET'])
 @protected
 def get_members():
@@ -58,7 +63,9 @@ def get_members():
     # return json objects to Front View
     # if username == api_username and password == api_password:
     #  return jsonify({'members': return_values, 'username': username, 'password': password})
+    # if request.args['type'] == 'json':
     return jsonify({'members': return_values})
+    # return render_template('members.html')
     # return jsonify({'message': 'Authentication Failed'}), 401
     # return 'This return all the members!'
 
